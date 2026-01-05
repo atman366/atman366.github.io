@@ -282,24 +282,70 @@
       4: ['细泥型']
     };
 
-    // 2. 强制匹配晓晓/婷婷优质女声（修正“地”读音为de）
-    function initTargetVoice() {
-      const voices = window.speechSynthesis.getVoices();
-      // 优先匹配晓晓(xiaoxiao)、婷婷(tingting)
-      targetVoice = voices.find(voice => 
-        voice.name.includes('xiaoxiao') || 
-        voice.name.includes('晓晓') || 
-        voice.name.includes('tingting') || 
-        voice.name.includes('婷婷') ||
-        (voice.lang === 'zh-CN' && voice.gender === 'female')
-      ) || voices.find(v => v.lang.includes('zh')) || voices[0];
-    }
-    // 多次初始化确保语音加载
-    window.speechSynthesis.onvoiceschanged = initTargetVoice;
-    setTimeout(initTargetVoice, 300);
-    setTimeout(initTargetVoice, 800);
+    // ========== 核心修改：重构语音初始化逻辑 ==========
+    // 扩展高质量中文女声列表，覆盖多平台
+    const HIGH_QUALITY_VOICES = [
+      '晓晓', 'Xiaoxiao', 'xiaoxiao',
+      '小燕', 'Xiaoyan', 'xiaoyan',
+      '婷婷', 'Tingting', 'tingting',
+      '琪琪', 'Qiqi', 'qiqi',
+      '丽丽', 'Lili', 'lili'
+    ];
 
-    // 3. 语音播放逻辑（修正读音+自然参数）
+    // 等待语音加载完成的辅助函数
+    function waitForVoicesLoaded() {
+      return new Promise((resolve) => {
+        // 如果语音已加载，直接返回
+        if (window.speechSynthesis.getVoices().length > 0) {
+          resolve(window.speechSynthesis.getVoices());
+          return;
+        }
+        // 监听语音加载事件
+        const onVoicesChanged = () => {
+          const voices = window.speechSynthesis.getVoices();
+          if (voices.length > 0) {
+            window.speechSynthesis.onvoiceschanged = null;
+            resolve(voices);
+          }
+        };
+        window.speechSynthesis.onvoiceschanged = onVoicesChanged;
+        // 超时兜底（5秒）
+        setTimeout(() => {
+          window.speechSynthesis.onvoiceschanged = null;
+          resolve(window.speechSynthesis.getVoices());
+        }, 5000);
+      });
+    }
+
+    // 初始化目标语音（优化版）
+    async function initTargetVoice() {
+      const voices = await waitForVoicesLoaded();
+      
+      // 第一步：匹配高质量中文女声
+      targetVoice = voices.find(voice => {
+        const voiceName = voice.name.toLowerCase();
+        return HIGH_QUALITY_VOICES.some(v => voiceName.includes(v.toLowerCase())) && 
+               voice.lang.includes('zh');
+      });
+
+      // 第二步：降级匹配所有中文女声
+      if (!targetVoice) {
+        targetVoice = voices.find(voice => 
+          voice.lang.includes('zh') && 
+          (voice.gender === 'female' || voice.name.includes('Female') || !voice.gender)
+        );
+      }
+
+      // 第三步：最终兜底（任意中文语音）
+      if (!targetVoice) {
+        targetVoice = voices.find(voice => voice.lang.includes('zh')) || voices[0];
+      }
+    }
+
+    // 立即初始化语音，确保页面加载时完成
+    initTargetVoice();
+
+    // ========== 核心修改：优化语音朗读逻辑 ==========
     function toggleSpeech(text) {
       // 停止当前朗读
       if (isSpeaking) {
@@ -307,21 +353,42 @@
         isSpeaking = false;
         return;
       }
-      // 确保目标语音加载完成
-      if (!targetVoice) initTargetVoice();
-      // 修正“地”的读音（强制替换为“de”）
-      const correctText = text.replace(/地/g, 'de');
-      // 创建朗读实例
-      speechUtterance = new SpeechSynthesisUtterance(correctText);
-      speechUtterance.voice = targetVoice;
-      speechUtterance.rate = 0.88; // 自然语速
-      speechUtterance.pitch = 1.3; // 甜美音调
-      speechUtterance.volume = 1;
-      speechUtterance.lang = 'zh-CN'; // 强制中文
-      // 开始朗读
-      window.speechSynthesis.speak(speechUtterance);
-      isSpeaking = true;
-      speechUtterance.onend = () => isSpeaking = false;
+
+      // 处理文本：修正读音 + 增加自然停顿
+      const processedText = text
+        .replace(/地/g, 'de')          // 修正“地”读音
+        .replace(/，/g, '，\n')        // 逗号处增加停顿
+        .replace(/。/g, '。\n\n')      // 句号处增加长停顿
+        .replace(/？/g, '？\n\n');     // 问号处增加长停顿
+
+      // 重新检查语音是否加载完成
+      initTargetVoice().then(() => {
+        // 创建朗读实例
+        speechUtterance = new SpeechSynthesisUtterance(processedText);
+        
+        // 设置自然的语音参数（关键优化）
+        speechUtterance.voice = targetVoice;
+        speechUtterance.rate = 0.9;    // 更自然的语速（0.8-1.0最佳）
+        speechUtterance.pitch = 1.1;   // 柔和的音调（避免过高尖锐）
+        speechUtterance.volume = 1;    // 最大音量
+        speechUtterance.lang = 'zh-CN';// 强制中文
+        speechUtterance.range = 0.5;   // 语调变化（增加自然度）
+
+        // 开始朗读
+        window.speechSynthesis.speak(speechUtterance);
+        isSpeaking = true;
+        
+        // 朗读结束回调
+        speechUtterance.onend = () => {
+          isSpeaking = false;
+        };
+        
+        // 错误处理
+        speechUtterance.onerror = (e) => {
+          console.error('语音朗读错误：', e);
+          isSpeaking = false;
+        };
+      });
     }
 
     // 4. 新增：上一题逻辑

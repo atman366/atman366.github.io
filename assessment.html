@@ -21,7 +21,7 @@
     }
     .page-title {
       font-family: "楷体", "KaiTi", serif;
-      font-size: 32px;
+      font-size: 36px; /* 标题文字调大 */
       text-align: center;
       color: #2c3e50;
       margin-bottom: 25px;
@@ -35,15 +35,9 @@
       display: block;
     }
     .question-text {
-      font-size: 18px;
+      font-size: 20px; /* 题目文字调大（原18px） */
       margin: 15px 0;
       line-height: 1.6;
-    }
-    .speaker-btn {
-      font-size: 22px;
-      color: #4285f4;
-      cursor: pointer;
-      margin-right: 10px;
     }
     /* 按钮组样式调整：是/否一行，上一题单独一行 */
     .btn-group {
@@ -61,7 +55,7 @@
       padding: 12px;
       border: none;
       border-radius: 6px;
-      font-size: 16px;
+      font-size: 18px; /* 按钮文字调大 */
       cursor: pointer;
       transition: background-color 0.3s;
     }
@@ -97,7 +91,7 @@
       display: none;
     }
     .result-text {
-      font-size: 18px;
+      font-size: 20px; /* 结果文字调大（原18px） */
       line-height: 1.8;
       margin: 20px 0;
       white-space: pre-line; /* 保留换行符 */
@@ -131,7 +125,6 @@
     <div class="questions">
       <!-- 题目1 -->
       <div class="question active" id="q1">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">您或您关心的人，是否因为吞咽困难、咀嚼无力、疾病恢复、年龄增长，而在吃普通饭菜或喝水时感到不适或担心？</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -145,7 +138,6 @@
 
       <!-- 题目2 -->
       <div class="question" id="q2">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">喝水（或清汤、茶）时，是否经常发生呛咳、咳嗽、或感觉水容易跑到鼻腔里？</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -158,7 +150,6 @@
 
       <!-- 题目3 -->
       <div class="question" id="q3">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">一块软面包或一个馒头可以不费力地、安全地吃完</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -171,7 +162,6 @@
 
       <!-- 题目4 -->
       <div class="question" id="q4">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">一根香蕉可以不费力地、安全地吃完</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -184,7 +174,6 @@
 
       <!-- 题目5 -->
       <div class="question" id="q5">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">一块嫩豆腐或很软的米饭可以不费力地、安全地吃完</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -197,7 +186,6 @@
 
       <!-- 题目6 -->
       <div class="question" id="q6">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">小米汤或稀米汤（不含米粒）可以安全吞咽（不呛咳）</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -210,7 +198,6 @@
 
       <!-- 题目7 -->
       <div class="question" id="q7">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">牛奶或豆浆可以安全吞咽（不呛咳）</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -223,7 +210,6 @@
 
       <!-- 题目8 -->
       <div class="question" id="q8">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">稠米粥或八宝粥可以安全吞咽（不呛咳）</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -236,7 +222,6 @@
 
       <!-- 题目9 -->
       <div class="question" id="q9">
-        <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
         <div class="question-text">蛋花汤或玉米羹可以安全吞咽（不呛咳）</div>
         <div class="btn-group">
           <button class="btn btn-yes" onclick="handleAnswer('是')">是</button>
@@ -250,7 +235,6 @@
 
     <!-- 结论区域 -->
     <div id="result">
-      <i class="fas fa-volume-up speaker-btn" onclick="toggleSpeech(this, this.nextElementSibling.textContent)"></i>
       <div class="result-text" id="resultContent"></div>
       <div class="result-btn-group">
         <button class="btn btn-restart" onclick="restart()">重新评估</button>
@@ -264,10 +248,6 @@
     let answers = {};
     let chewLevel = null;
     let swallowLevel = null;
-    let speechUtterance = null;
-    let isSpeaking = false;
-    let targetVoice = null;
-    let voiceInited = false; // 标记语音是否已初始化
 
     // 1. 严格按要求定义食物映射表
     const chewFoodMap = {
@@ -283,118 +263,8 @@
       4: ['细泥型']
     };
 
-    // ========== 适配手机端的核心修改 ==========
-    // 扩展高质量中文女声列表，覆盖多平台
-    const HIGH_QUALITY_VOICES = [
-      '晓晓', 'Xiaoxiao', 'xiaoxiao',
-      '小燕', 'Xiaoyan', 'xiaoyan',
-      '婷婷', 'Tingting', 'tingting',
-      '琪琪', 'Qiqi', 'qiqi',
-      '丽丽', 'Lili', 'lili'
-    ];
-
-    // 同步初始化语音（适配手机端）
-    function initVoiceSync() {
-      if (voiceInited) return;
-      
-      // 强制获取语音列表（解决手机端语音加载延迟）
-      const voices = window.speechSynthesis.getVoices();
-      
-      // 第一步：匹配高质量中文女声
-      targetVoice = voices.find(voice => {
-        const voiceName = voice.name.toLowerCase();
-        return HIGH_QUALITY_VOICES.some(v => voiceName.includes(v.toLowerCase())) && 
-               voice.lang.includes('zh');
-      });
-
-      // 第二步：降级匹配所有中文女声
-      if (!targetVoice) {
-        targetVoice = voices.find(voice => 
-          voice.lang.includes('zh') && 
-          (voice.gender === 'female' || voice.name.includes('Female') || !voice.gender)
-        );
-      }
-
-      // 第三步：最终兜底（任意中文语音）
-      if (!targetVoice) {
-        targetVoice = voices.find(voice => voice.lang.includes('zh')) || voices[0];
-      }
-      
-      voiceInited = true;
-    }
-
-    // 手机端适配：用户点击时才初始化语音（核心修复）
-    function toggleSpeech(btn, text) {
-      // 停止当前朗读
-      if (isSpeaking) {
-        window.speechSynthesis.cancel();
-        isSpeaking = false;
-        // 恢复图标样式
-        btn.classList.remove('fa-volume-mute');
-        btn.classList.add('fa-volume-up');
-        return;
-      }
-
-      // 关键：在用户点击时同步初始化语音（满足手机端交互触发要求）
-      initVoiceSync();
-      
-      // 处理文本：修正读音 + 增加自然停顿
-      const processedText = text
-        .replace(/地/g, 'de')          // 修正“地”读音
-        .replace(/，/g, '，\n')        // 逗号处增加停顿
-        .replace(/。/g, '。\n\n')      // 句号处增加长停顿
-        .replace(/？/g, '？\n\n');     // 问号处增加长停顿
-
-      // 创建朗读实例（同步执行，满足手机端要求）
-      speechUtterance = new SpeechSynthesisUtterance(processedText);
-      
-      // 设置语音参数（兼容手机端）
-      speechUtterance.voice = targetVoice;
-      speechUtterance.rate = 0.9;    // 更自然的语速
-      speechUtterance.pitch = 1.1;   // 柔和的音调
-      speechUtterance.volume = 1;    // 最大音量
-      speechUtterance.lang = 'zh-CN';// 强制中文
-
-      // 切换图标表示正在播放
-      btn.classList.remove('fa-volume-up');
-      btn.classList.add('fa-volume-mute');
-      
-      // 开始朗读（同步执行，由用户点击直接触发）
-      window.speechSynthesis.speak(speechUtterance);
-      isSpeaking = true;
-      
-      // 朗读结束回调
-      speechUtterance.onend = () => {
-        isSpeaking = false;
-        // 恢复图标
-        btn.classList.remove('fa-volume-mute');
-        btn.classList.add('fa-volume-up');
-      };
-      
-      // 错误处理
-      speechUtterance.onerror = (e) => {
-        console.error('语音朗读错误：', e);
-        isSpeaking = false;
-        // 恢复图标
-        btn.classList.remove('fa-volume-mute');
-        btn.classList.add('fa-volume-up');
-        // 手机端友好提示
-        alert('当前设备暂不支持语音朗读，请手动阅读内容');
-      };
-    }
-
-    // 4. 新增：上一题逻辑
+    // 2. 上一题逻辑
     function prevQuestion() {
-      // 停止当前朗读
-      if (isSpeaking) {
-        window.speechSynthesis.cancel();
-        isSpeaking = false;
-        // 恢复所有语音图标
-        document.querySelectorAll('.speaker-btn').forEach(btn => {
-          btn.classList.remove('fa-volume-mute');
-          btn.classList.add('fa-volume-up');
-        });
-      }
       // 仅当当前题>1时跳转
       if (currentQ > 1) {
         const prevQ = currentQ - 1;
@@ -406,7 +276,7 @@
       }
     }
 
-    // 5. 辅助函数：更新上一题按钮禁用状态
+    // 3. 辅助函数：更新上一题按钮禁用状态
     function updatePrevBtnStatus() {
       // 先移除所有题目按钮的禁用状态
       document.querySelectorAll('.btn-prev').forEach(btn => {
@@ -416,17 +286,8 @@
       document.querySelector('#q1 .btn-prev').disabled = true;
     }
 
-    // 6. 题目跳转逻辑（更新：跳转后同步按钮状态）
+    // 4. 题目跳转逻辑（更新：跳转后同步按钮状态）
     function showQuestion(q) {
-      if (isSpeaking) {
-        window.speechSynthesis.cancel();
-        isSpeaking = false;
-        // 恢复所有语音图标
-        document.querySelectorAll('.speaker-btn').forEach(btn => {
-          btn.classList.remove('fa-volume-mute');
-          btn.classList.add('fa-volume-up');
-        });
-      }
       document.getElementById(`q${currentQ}`).classList.remove('active');
       document.getElementById(`q${q}`).classList.add('active');
       currentQ = q;
@@ -488,7 +349,7 @@
       }
     }
 
-    // 7. 结论生成（保留异常路径判断）
+    // 5. 结论生成（保留异常路径判断）
     function calculateResult() {
       // 场景1：异常路径（无有效咀嚼/吞咽等级）→ 请重新评估
       if (!chewLevel || !swallowLevel) {
@@ -515,15 +376,6 @@
     }
 
     function showResult() {
-      if (isSpeaking) {
-        window.speechSynthesis.cancel();
-        isSpeaking = false;
-        // 恢复所有语音图标
-        document.querySelectorAll('.speaker-btn').forEach(btn => {
-          btn.classList.remove('fa-volume-mute');
-          btn.classList.add('fa-volume-up');
-        });
-      }
       document.querySelector('.questions').style.display = 'none';
       document.getElementById('resultContent').textContent = calculateResult();
       document.getElementById('result').style.display = 'block';
@@ -534,12 +386,6 @@
       answers = {};
       chewLevel = null;
       swallowLevel = null;
-      isSpeaking && window.speechSynthesis.cancel();
-      // 恢复所有语音图标
-      document.querySelectorAll('.speaker-btn').forEach(btn => {
-        btn.classList.remove('fa-volume-mute');
-        btn.classList.add('fa-volume-up');
-      });
       document.getElementById('result').style.display = 'none';
       document.querySelector('.questions').style.display = 'block';
       document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
@@ -558,11 +404,6 @@
 
     // 初始化：设置第一题上一题按钮禁用
     updatePrevBtnStatus();
-    
-    // 预加载语音（但实际初始化在用户点击时执行）
-    window.speechSynthesis.onvoiceschanged = function() {
-      initVoiceSync();
-    };
   </script>
 </body>
 </html>
